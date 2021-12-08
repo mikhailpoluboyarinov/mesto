@@ -8,14 +8,16 @@
 </head>
 <body class="page">
     <header class="header">
-        <img class="header__logo" src="./images/logo-mesto.svg" alt="Логотип" width="142" height="33">
+        <img class="header__logo" src="./images/logo-mesto.svg" alt="Логотип">
     </header>
     <main>
         <section class="profile">
             <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватар профиля" width="120" height="120">
-            <div class="profile__info">
-                <h1 class="profile__title">Жак-Ив Кусто</h1>
-                <button class="profile__edit-button" type="button"></button>
+            <div class="profile__info-container">
+                <div class="profile__info">
+                    <h1 class="profile__title">Жак-Ив Кусто</h1>
+                    <button class="profile__edit-button" type="button"></button>
+                </div>
                 <p class="profile__subtitle">Исследователь океана</p>
             </div>
             <button class="profile__add-button" type="button"></button>
@@ -59,7 +61,7 @@
             <article class="element">
                 <img class="element__image" src="./images/karachevsk.jpg" alt="Карачаево-Черкессия" width="282" height="282">
                 <div class="element__info">
-                    <h2 class="element__description">Карачаево-Черкессия</h2>
+                    <h2 class="element__title">Карачаево-Черкессия</h2>
                     <button class="element__like-button" type="button"></button>
                 </div>
             </article>
@@ -73,11 +75,11 @@
         <div class="popup__container">
             <form class="form" name="form">
                 <h2 class="form__title">Редактировать профиль</h2>
-                <input class="form__input form__input_name" type="text" name="profile-name" value="Жак-Ив Кусто" placeholder="Имя" required>
-                <input class="form__input form__input_profession" type="text" name="profession" value="Исследователь океана" placeholder="Профессия" required>
+                <input class="form__input form__input-name" type="text" name="profile-name" value="Жак-Ив Кусто" placeholder="Имя" required>
+                <input class="form__input form__input-profession" type="text" name="profession" value="Исследователь океана" placeholder="Профессия" required>
                 <button class="form__save-button" type="submit">Сохранить</button>
+                <button class="form__close-button" type="button"></button>
             </form>
-            <button class="popup__close-button" type="button"></button>
         </div>
     </div>
 

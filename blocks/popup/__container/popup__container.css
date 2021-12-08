@@ -1,0 +1,15 @@
+.popup__container {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    width: 430px;
+    top: 42.5%;
+    background-color: #fff;
+}
+
+@media screen and (max-width: 767px) {
+    .popup__container {
+        top: 33.5%;
+    }
+}
