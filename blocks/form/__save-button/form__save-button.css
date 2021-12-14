@@ -13,6 +13,7 @@
 
 .form__save-button:hover {
     opacity: 80%;
+    transition: opacity .5s linear;
     cursor: pointer;
 }
 
