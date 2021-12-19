@@ -2,8 +2,7 @@ const editPopupBtn = document.querySelector('.profile__edit-button');
 const editPopup = document.querySelector('.popup_edit');
 const addPopupBtn = document.querySelector('.profile__add-button');
 const addPopup = document.querySelector('.popup_add');
-const closeForm = document.querySelector('.popup__close-button');
-const popup = document.querySelector('.popup');
+const closeButtons = document.querySelectorAll('.popup__close-button');
 const formElement = document.querySelector('.form');
 const nameInput = document.querySelector('.form__input_type_name');
 const jobInput = document.querySelector('.form__input_type_profession');
@@ -45,7 +44,7 @@ const initialCards = [
 
 //Функция открытия попапа
 
-function openPopup() {
+function openPopup(popup) {
     popup.classList.add('popup_opened');
 }
 
@@ -53,7 +52,8 @@ function openPopup() {
 //Функция закрытия попапа
 
 function closePopup() {
-    popup.classList.remove('popup_opened');
+    const openedPopup = document.querySelector('.popup_opened');
+    openedPopup.classList.remove('popup_opened');
 }
 
 
@@ -66,20 +66,13 @@ function editProfile() {
 }
 
 
-//Функция закрытия попапа профиля
-
-function closeProfile() {
-    closePopup(editPopup);
-}
-
-
 //Функция сохранения данных профиля
 
 function formSubmitHandler (evt) {
     evt.preventDefault();
     userName.textContent = nameInput.value;
     userJob.textContent = jobInput.value;
-    closePopup(editPopup);
+    closePopup();
 }
 
 
@@ -92,13 +85,6 @@ function openAddCard() {
 }
 
 
-//Функция закрытия попапа добавления карточек
-
-function closeAddCard() {
-    closePopup(addPopup);
-}
-
-
 //Функкия сохранения данных карточки
 
 function AddCard(evt) {
@@ -106,7 +92,7 @@ function AddCard(evt) {
     const cardName = popupPlace.value;
     const cardLink = popupLink.value;
     cards.prepend(createNewCard(cardName, cardLink));
-    closePopup(addPopup);
+    closePopup();
 }
 
 
@@ -144,15 +130,15 @@ function createNewCard(nameValue, linkValue) {
 //Функция добавления карточек при загрузке страницы
 
 initialCards.forEach((item) => {
-    const createCard = createNewCard(item.nameValue, item.linkValue);
-    cards.prepend(createCard);
+    cards.prepend(createNewCard(item.name, item.link));
 })
 
 //События
 
 editPopupBtn.addEventListener('click', editProfile);
-closeForm.addEventListener('click', closeProfile);
 formElement.addEventListener('submit', formSubmitHandler);
 addPopupBtn.addEventListener('click', openAddCard);
-closeForm.addEventListener('click', closeAddCard);
 addPopup.addEventListener('submit', AddCard);
+closeButtons.forEach(item => {
+    item.addEventListener('click', closePopup);
+});
