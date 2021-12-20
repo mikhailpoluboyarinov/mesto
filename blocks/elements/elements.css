@@ -1,5 +1,6 @@
 .elements {
     max-width: 880px;
+    min-height: 361.61px;
     padding: 50px 0 66px 0;
     margin: 0 auto;
     display: grid;
