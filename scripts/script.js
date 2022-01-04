@@ -92,18 +92,18 @@ function createNewCard(item) {
         elementCard.remove();
     });
 
-   like.addEventListener('click', function () {
+    like.addEventListener('click', function () {
         like.classList.toggle('element__like-button_active');
     });
 
-   elementImage.addEventListener('click', function () {
+    elementImage.addEventListener('click', function () {
         photo.src = link;
         photo.alt = name;
         title.textContent = name;
         openPopup(popupPhoto);
-   });
+    });
 
-   return elementCard;
+    return elementCard;
 }
 
 
@@ -128,4 +128,3 @@ addPopupCloseBtn.addEventListener('click', function () {
 popupPhotoCloseBtn.addEventListener('click', function () {
     closePopup(popupPhoto);
 })
-
