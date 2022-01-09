@@ -2,9 +2,10 @@
 
 const showInputError = (formElement, inputElement, errorMessage, obj) => {
     const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+
     inputElement.classList.add(obj.inputErrorClass);
-    errorElement.textContent = errorMessage;
     errorElement.classList.add(obj.errorClass);
+    errorElement.textContent = errorMessage;
 };
 
 
@@ -29,7 +30,7 @@ const checkInputValidity = (formElement, inputElement, obj) => {
 };
 
 
-//Функция слушатель состояния кнопки
+//Функция обработки всех полей формы
 
 const setEventListeners = (formElement, obj) => {
     const inputList = Array.from(formElement.querySelectorAll(obj.inputSelector));
@@ -53,7 +54,8 @@ const hasInvalidInput = (inputList) => {
 };
 
 
-//Функция отмены браузерной валидации
+//Функция добавления обработчиков всем формам
+
 const enableValidation = (obj) => {
     const formList = Array.from(document.querySelectorAll(obj.formSelector));
     formList.forEach((formElement) => {

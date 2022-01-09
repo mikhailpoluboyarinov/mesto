@@ -22,6 +22,7 @@ const popupLink = document.querySelector('.form__input_type_link');
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    document.addEventListener('keydown', closePopupByEsc);
 }
 
 
@@ -29,6 +30,27 @@ function openPopup(popup) {
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closePopupByEsc);
+}
+
+
+//Функция закрытия попапа по оверлею
+
+const closePopupByOverlay = function (evt) {
+    if (evt.target !== evt.currentTarget) {
+        return;
+    }
+    closePopup(evt.target);
+};
+
+
+//Функция закрытия попапа по Esc
+
+const closePopupByEsc = function (evt) {
+    if (evt.key === 'Escape') {
+        const openedPopup = document.querySelector('.popup_opened');
+        closePopup(openedPopup);
+    }
 }
 
 
@@ -128,3 +150,6 @@ addPopupCloseBtn.addEventListener('click', function () {
 popupPhotoCloseBtn.addEventListener('click', function () {
     closePopup(popupPhoto);
 })
+editPopup.addEventListener('click', closePopupByOverlay);
+addPopup.addEventListener('click', closePopupByOverlay);
+popupPhoto.addEventListener('click', closePopupByOverlay);

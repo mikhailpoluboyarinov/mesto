@@ -34,11 +34,11 @@
             <form class="form popup__form" name="form" novalidate>
                 <h2 class="form__title">Редактировать профиль</h2>
                 <label class="form__field">
-                    <input class="popup__input form__input form__input_type_name" type="text" name="profile-name" value="Жак-Ив Кусто" placeholder="Имя" minlength="2" maxlength="40" required>
+                    <input class="popup__input form__input form__input_type_name" id="name-input" type="text" name="profile-name" value="Жак-Ив Кусто" autocomplete="off" minlength="2" maxlength="40" required>
                     <span class="form__error name-input-error popup__error"></span>
                 </label>
                 <label class="form__field">
-                    <input class="popup__input form__input form__input_type_profession" type="text" name="profession" value="Исследователь океана" placeholder="Профессия" minlength="2" maxlength="200" required>
+                    <input class="popup__input form__input form__input_type_profession" id="profession-input" type="text" name="profession" autocomplete="off" value="Исследователь океана" placeholder="Профессия" minlength="2" maxlength="200" required>
                     <span class="form__error profession-input-error popup__error"></span>
                 </label>
                 <button class="form__save-button popup__button" type="submit">Сохранить</button>
@@ -52,11 +52,11 @@
             <form class="form popup__form" name="add" novalidate>
                 <h2 class="form__title">Новое место</h2>
                 <label class="form__field">
-                    <input class="popup__input form__input form__input_type_place" type="text" name="name-of-place" placeholder="Название" value="" minlength="2" maxlength="30" required>
+                    <input class="popup__input form__input form__input_type_place" id="place-input" type="text" name="name-of-place" placeholder="Название" value="" minlength="2" maxlength="30" required>
                     <span class="form__error place-input-error popup__error"></span>
                 </label>
                 <label class="form__field">
-                    <input class="popup__input form__input form__input_type_link" type="text" name="link" placeholder="Ссылка на картинку" value="" required>
+                    <input class="popup__input form__input form__input_type_link" id="link-input" type="url" name="link" placeholder="Ссылка на картинку" value="" required>
                     <span class="form__error link-input-error popup__error"></span>
                 </label>
                 <button class="form__save-button popup__button" type="submit">Создать</button>
