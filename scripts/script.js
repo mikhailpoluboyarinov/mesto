@@ -20,11 +20,11 @@ const title = popupPhoto.querySelector('.popup__title');
 const popups = document.querySelectorAll('.popup');
 
 
-
 //Функция открытия попапа
 
 function openPopup(popup) {
     popup.classList.add('popup_opened');
+    document.addEventListener('keydown', closePopupByEsc);
 }
 
 
@@ -32,16 +32,7 @@ function openPopup(popup) {
 
 function closePopup(popup) {
     popup.classList.remove('popup_opened');
-}
-
-
-//Функция закрытия попапа по оверлею
-
-const closePopupByOverlay = function (evt) {
-    if (evt.target !== evt.currentTarget) {
-        return;
-    }
-    closePopup(evt.target);
+    document.removeEventListener('keydown', closePopupByEsc);
 }
 
 
@@ -54,7 +45,8 @@ const closePopupByEsc = function (evt) {
     }
 }
 
-//Функция закрытия всех карточек
+
+//Функция закрытия всех карточек по оверлею и крестику
 
 popups.forEach((popup) => {
     popup.addEventListener('click', (evt) => {
@@ -90,6 +82,8 @@ function submitHandlerForm (evt) {
 //Функция открытия попапа добавления карточек
 
 function openAddCard() {
+    const buttonElement = document.querySelector('.popup__button');
+    buttonElement.classList.add('popup__button_disabled');
     openPopup(addPopup);
 }
 
