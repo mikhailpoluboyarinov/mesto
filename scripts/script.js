@@ -1,9 +1,7 @@
 const editPopupBtn = document.querySelector('.profile__edit-button');
 const editPopup = document.querySelector('.popup_edit');
-const editPopupCloseBtn = editPopup.querySelector('.popup__close-button')
 const addPopupBtn = document.querySelector('.profile__add-button');
 const addPopup = document.querySelector('.popup_add');
-const addPopupCloseBtn = addPopup.querySelector('.popup__close-button');
 const formElement = document.querySelector('.form');
 const nameInput = document.querySelector('.form__input_type_name');
 const jobInput = document.querySelector('.form__input_type_profession');
@@ -12,12 +10,12 @@ const userJob = document.querySelector('.profile__subtitle');
 const itemTemplate = document.querySelector('#template-element');
 const cards = document.querySelector('.elements');
 const popupPhoto = document.querySelector('.popup_photo');
-const popupPhotoCloseBtn = popupPhoto.querySelector('.popup__close-button');
 const popupPlace = document.querySelector('.form__input_type_place');
 const popupLink = document.querySelector('.form__input_type_link');
 const photo = popupPhoto.querySelector('.popup__image');
 const title = popupPhoto.querySelector('.popup__title');
 const popups = document.querySelectorAll('.popup');
+const submitButton = document.querySelector('.popup__button_add');
 
 
 //Функция открытия попапа
@@ -53,7 +51,7 @@ popups.forEach((popup) => {
         if (evt.target.classList.contains('popup_opened')) {
             closePopup(popup);
         }
-        if (evt.target.classList.contains('popup__close')) {
+        if (evt.target.classList.contains('popup__close-button')) {
             closePopup(popup);
         }
     })
@@ -82,8 +80,8 @@ function submitHandlerForm (evt) {
 //Функция открытия попапа добавления карточек
 
 function openAddCard() {
-    const buttonElement = document.querySelector('.popup__button');
-    buttonElement.classList.add('popup__button_disabled');
+    submitButton.classList.add('popup__button_disabled');
+    submitButton.setAttribute('disabled','disabled');
     openPopup(addPopup);
 }
 
@@ -141,18 +139,10 @@ initialCards.forEach((item) => {
     cards.prepend(createNewCard(item));
 })
 
+
 //События
 
 editPopupBtn.addEventListener('click', editProfile);
 formElement.addEventListener('submit', submitHandlerForm);
 addPopupBtn.addEventListener('click', openAddCard);
 addPopup.addEventListener('submit', addCard);
-editPopupCloseBtn.addEventListener('click', function () {
-    closePopup(editPopup);
-})
-addPopupCloseBtn.addEventListener('click', function () {
-    closePopup(addPopup);
-})
-popupPhotoCloseBtn.addEventListener('click', function () {
-    closePopup(popupPhoto);
-})
