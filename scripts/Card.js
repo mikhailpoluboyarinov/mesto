@@ -20,17 +20,16 @@ export class Card {
     _handleClickLikeToggle() {
         const likeButton = this._element.querySelector('.element__like-button');
 
-        likeButton.addEventListener('click', function () {
+        likeButton.addEventListener('click', () => {
             likeButton.classList.toggle('element__like-button_active');
         });
     }
 
     _handleClickRemoveButton() {
-        const element = this._element;
-        const deleteButton = element.querySelector('.element__delete-button');
+        const deleteButton = this._element.querySelector('.element__delete-button');
 
-        deleteButton.addEventListener('click', function () {
-            element.remove();
+        deleteButton.addEventListener('click', () => {
+            this._element.remove();
         });
     }
 

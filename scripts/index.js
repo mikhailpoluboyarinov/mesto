@@ -7,7 +7,7 @@ import {openPopup, closePopup} from "./utils.js";
 const templateSelector = '#template-element';
 const cardsContainer = document.querySelector('.elements');
 const popups = document.querySelectorAll('.popup');
-const editPopup = document.querySelector('.popup_edit');
+const cardElementEdit = document.querySelector('.popup_edit');
 const popupBtnEdit = document.querySelector('.profile__edit-button');
 const popupBtnAdd = document.querySelector('.profile__add-button');
 const formElement = document.querySelector('.form');
@@ -73,7 +73,7 @@ popups.forEach((popup) => {
 function editProfile() {
     nameInput.value = userName.textContent;
     jobInput.value = userJob.textContent;
-    openPopup(editPopup);
+    openPopup(cardElementEdit);
 }
 
 
@@ -93,7 +93,7 @@ function submitHandlerForm (evt) {
     evt.preventDefault();
     userName.textContent = nameInput.value;
     userJob.textContent = jobInput.value;
-    closePopup(editPopup);
+    closePopup(cardElementEdit);
 }
 
 
