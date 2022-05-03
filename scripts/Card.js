@@ -1,34 +1,24 @@
-import {openPopup} from "./utils.js";
-
 export class Card {
-    constructor(data, templateElement) {
+    constructor(data, templateSelector, openImagePopup) {
         this._data = data;
-        this._templateElement = templateElement;
+        this._templateSelector = templateSelector;
+        this._openImagePopup = openImagePopup;
     }
 
     _getTemplate() {
-        return this._templateElement.content.querySelector('.element').cloneNode(true);
+        const itemTemplate = document.querySelector(this._templateSelector);
+
+        return itemTemplate.content.querySelector('.element').cloneNode(true);
     }
 
     _handleClickImage() {
-        const element = this._element;
-        const elementImage = element.querySelector('.element__image');
-        const {name, link} = this._data;
-        const popupPhoto = document.querySelector('.popup_photo');
-        const photo = popupPhoto.querySelector('.popup__image');
-        const title = popupPhoto.querySelector('.popup__title');
-
-        elementImage.addEventListener('click', function () {
-            photo.src = link;
-            photo.alt = name;
-            title.textContent = name;
-            openPopup(popupPhoto);
+        this._elementImage.addEventListener('click', () => {
+            this._openImagePopup(this._data);
         });
     }
 
     _handleClickLikeToggle() {
-        const element = this._element;
-        const likeButton = element.querySelector('.element__like-button');
+        const likeButton = this._element.querySelector('.element__like-button');
 
         likeButton.addEventListener('click', function () {
             likeButton.classList.toggle('element__like-button_active');
@@ -54,12 +44,12 @@ export class Card {
 
     renderCard() {
         this._element = this._getTemplate();
+        this._elementImage = this._element.querySelector('.element__image');
 
-        const elementImage = this._element.querySelector('.element__image');
         const elementTitle = this._element.querySelector('.element__title');
         const {name, link} = this._data;
 
-        elementImage.src = link;
+        this._elementImage.src = link;
         elementTitle.alt = name;
         elementTitle.textContent = name;
 

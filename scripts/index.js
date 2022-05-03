@@ -4,21 +4,25 @@ import {initialCards} from "./cards.js";
 import {openPopup, closePopup} from "./utils.js";
 
 
-const itemTemplate = document.querySelector('#template-element');
-const cards = document.querySelector('.elements');
+const templateSelector = '#template-element';
+const cardsContainer = document.querySelector('.elements');
 const popups = document.querySelectorAll('.popup');
 const editPopup = document.querySelector('.popup_edit');
-const submitButton = document.querySelector('.popup__button_add');
-const editPopupBtn = document.querySelector('.profile__edit-button');
-const addPopupBtn = document.querySelector('.profile__add-button');
+const popupBtnEdit = document.querySelector('.profile__edit-button');
+const popupBtnAdd = document.querySelector('.profile__add-button');
 const formElement = document.querySelector('.form');
-const addPopup = document.querySelector('.popup_add');
+const popupAddCard = document.querySelector('.popup_add');
 const popupPlace = document.querySelector('.form__input_type_place');
 const popupLink = document.querySelector('.form__input_type_link');
 const userName = document.querySelector('.profile__title');
 const userJob = document.querySelector('.profile__subtitle');
 const nameInput = document.querySelector('.form__input_type_name');
 const jobInput = document.querySelector('.form__input_type_profession');
+const formEditElement = document.querySelector('.form_edit');
+const formAddCard = document.querySelector('.form_add_card');
+const popupPhoto = document.querySelector('.popup_photo');
+const photo = popupPhoto.querySelector('.popup__image');
+const title = popupPhoto.querySelector('.popup__title');
 
 
 //Объект настроек валидации
@@ -32,11 +36,24 @@ const options = {
 }
 
 
+const profileValidation = new FormValidator(options, formEditElement);
+const newCardValidation = new FormValidator(options, formAddCard);
+profileValidation.enableValidation();
+newCardValidation.enableValidation();
+
+
+//Функция создания карточки
+
+const createCard = (item) => {
+    const cardItem = new Card(item, templateSelector, openImagePopup);
+    return cardItem.renderCard();
+}
+
+
 //Функция добавления карточек при загрузке страницы
 
 initialCards.forEach((item) => {
-    const cardItem = new Card(item, itemTemplate);
-    cards.prepend(cardItem.renderCard());
+    cardsContainer.prepend(createCard(item));
 })
 
 
@@ -44,10 +61,7 @@ initialCards.forEach((item) => {
 
 popups.forEach((popup) => {
     popup.addEventListener('click', (evt) => {
-        if (evt.target.classList.contains('popup_opened')) {
-            closePopup(popup);
-        }
-        if (evt.target.classList.contains('popup__close-button')) {
+        if (evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close-button')) {
             closePopup(popup);
         }
     })
@@ -57,9 +71,19 @@ popups.forEach((popup) => {
 //Функция открытия попапа профиля
 
 function editProfile() {
-    openPopup(editPopup);
     nameInput.value = userName.textContent;
     jobInput.value = userJob.textContent;
+    openPopup(editPopup);
+}
+
+
+function openImagePopup (data) {
+    const { link, name } = data;
+
+    photo.src = link;
+    photo.alt = name;
+    title.textContent = name;
+    openPopup(popupPhoto);
 }
 
 
@@ -76,9 +100,8 @@ function submitHandlerForm (evt) {
 //Функция открытия попапа добавления карточек
 
 function openAddCard() {
-    submitButton.classList.add('popup__button_disabled');
-    submitButton.setAttribute('disabled','disabled');
-    openPopup(addPopup);
+    newCardValidation.reset();
+    openPopup(popupAddCard);
 }
 
 
@@ -91,26 +114,19 @@ function addCard(evt) {
         link: popupLink.value
     };
 
-    const cardItem = new Card (card, itemTemplate);
-    cards.prepend(cardItem.renderCard());
+
+    cardsContainer.prepend(createCard(card));
 
 
-    closePopup(addPopup);
+    closePopup(popupAddCard);
     popupPlace.value = '';
     popupLink.value = '';
 }
 
 
-const formList = Array.from(document.querySelectorAll('.popup__form'));
-formList.forEach((formElement) => {
-    const formValidator = new FormValidator(options, formElement);
-    formValidator.enableValidation();
-});
-
-
 //События
 
-editPopupBtn.addEventListener('click', editProfile);
+popupBtnEdit.addEventListener('click', editProfile);
 formElement.addEventListener('submit', submitHandlerForm);
-addPopupBtn.addEventListener('click', openAddCard);
-addPopup.addEventListener('submit', addCard);
+popupBtnAdd.addEventListener('click', openAddCard);
+popupAddCard.addEventListener('submit', addCard);

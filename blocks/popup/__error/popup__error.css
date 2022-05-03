@@ -9,3 +9,9 @@
     left: 36px;
     transition: 0.3s;
 }
+
+@media screen and (max-width: 767px) {
+    .popup__error {
+        left: 21px;
+    }
+}
