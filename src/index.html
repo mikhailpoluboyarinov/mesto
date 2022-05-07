@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./pages/index.css">
     <title>Mesto</title>
 </head>
 <body class="page">
     <header class="header">
-        <img class="header__logo" src="./images/logo-mesto.svg" alt="Логотип">
+        <img class="header__logo" src="<%=require('./images/logo-mesto.svg')%>" alt="Логотип">
     </header>
     <main>
         <section class="profile">
-            <img class="profile__avatar" src="./images/avatar.jpg" alt="Аватар профиля">
+            <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватар профиля">
             <div class="profile__info-container">
                 <div class="profile__info">
                     <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -34,7 +33,7 @@
             <form class="form popup__form form_edit" name="form" novalidate>
                 <h2 class="form__title">Редактировать профиль</h2>
                 <label class="form__field">
-                    <input class="popup__input form__input form__input_type_name" id="name-input" type="text" name="profile-name" value="Жак-Ив Кусто" autocomplete="off" minlength="2" maxlength="40" required>
+                    <input class="popup__input form__input form__input_type_name" id="name-input" type="text" name="name" value="Жак-Ив Кусто" autocomplete="off" minlength="2" maxlength="40" required>
                     <span class="form__error name-input-error popup__error"></span>
                 </label>
                 <label class="form__field">
@@ -83,8 +82,6 @@
             </div>
         </article>
     </template>
-
-    <script src="./scripts/index.js" type="module"></script>
 
 </body>
 </html>
