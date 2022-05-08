@@ -49,6 +49,7 @@ export class Card {
         const {name, link} = this._data;
 
         this._elementImage.src = link;
+        this._elementImage.alt = name;
         elementTitle.alt = name;
         elementTitle.textContent = name;
 

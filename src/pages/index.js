@@ -11,15 +11,15 @@ import {
     formEditElement,
     formAddCard,
     options
-} from './utils/constants.js';
-import {Card} from './components/Card.js';
-import {FormValidator} from './components/FormValidator.js';
-import {Section} from './components/Section.js';
-import {PopupWithImage} from './components/PopupWithImage.js';
-import {PopupWithForm} from './components/PopupWithForm.js';
-import {initialCards} from './utils/cards.js';
-import {UserInfo} from './components/UserInfo.js';
-import './pages/index.css';
+} from '../utils/constants.js';
+import {Card} from '../components/Card.js';
+import {FormValidator} from '../components/FormValidator.js';
+import {Section} from '../components/Section.js';
+import {PopupWithImage} from '../components/PopupWithImage.js';
+import {PopupWithForm} from '../components/PopupWithForm.js';
+import {initialCards} from '../utils/cards.js';
+import {UserInfo} from '../components/UserInfo.js';
+import './index.css';
 
 const profileValidation = new FormValidator(options, formEditElement);
 profileValidation.enableValidation();
@@ -40,6 +40,7 @@ cardSection.render();
 const userInfo = new UserInfo({ dataUserNameSelector: userNameSelector, dataUserInfoSelector: userInfoSelector } );
 
 const popupUserInfo = new PopupWithForm(popupEditSelector, submitHandlerForm);
+popupUserInfo.setEventListeners();
 
 function editProfile() {
     popupUserInfo.open();
@@ -57,6 +58,7 @@ function submitHandlerForm (data) {
 }
 
 const popupAddPlace = new PopupWithForm(popupAddSelector, addCard);
+popupAddPlace.setEventListeners();
 
 //Функция открытия попапа добавления карточек
 function openAddCard() {
@@ -77,6 +79,7 @@ function addCard(data) {
 }
 
 const popupImage = new PopupWithImage(popupPhotoSelector);
+popupImage.setEventListeners();
 
 function openImagePopup (data) {
     popupImage.open(data);

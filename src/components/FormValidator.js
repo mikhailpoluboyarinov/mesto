@@ -8,10 +8,6 @@ export class FormValidator {
         this._buttonElement = this._formElement.querySelector(this._options.submitButtonSelector);
         this._inputList = Array.from(this._formElement.querySelectorAll(this._options.inputSelector));
 
-        this._formElement.addEventListener('submit', (evt) => {
-            evt.preventDefault();
-        });
-
         this._setEventListeners();
     }
 

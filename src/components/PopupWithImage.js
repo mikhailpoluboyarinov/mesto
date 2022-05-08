@@ -6,8 +6,6 @@ export class PopupWithImage extends Popup {
 
         this._popupImage = this._element.querySelector('.popup__image');
         this._popupTitle = this._element.querySelector('.popup__title');
-
-        this.setEventListeners();
     }
 
     open(data) {
