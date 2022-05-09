@@ -34,7 +34,11 @@ const createCard = (item) => {
 }
 
 //Функция добавления карточек при загрузке страницы
-const cardSection = new Section({ items: initialCards, renderer: createCard }, cardsSelector);
+const cardSection = new Section({ items: initialCards, renderer: (data) => {
+    const card = createCard(data);
+    cardSection.addItem(card);
+    }},
+    cardsSelector);
 cardSection.render();
 
 const userInfo = new UserInfo({ dataUserNameSelector: userNameSelector, dataUserInfoSelector: userInfoSelector } );
