@@ -33,6 +33,14 @@ export class PopupWithForm extends Popup {
         })
     }
 
+    setSubmitting() {
+        this._element.querySelector('button[type="submit"]').textContent = 'Сохранение...';
+    }
+
+    setSubmitted() {
+        this._element.querySelector('button[type="submit"]').textContent = 'Сохранено';
+    }
+
     close() {
         super.close();
     }

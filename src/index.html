@@ -11,7 +11,9 @@
     </header>
     <main>
         <section class="profile">
-            <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватар профиля">
+            <div class="profile__avatar-container">
+                <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="Аватар профиля">
+            </div>
             <div class="profile__info-container">
                 <div class="profile__info">
                     <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -72,13 +74,38 @@
         </div>
     </div>
 
+    <div class="popup popup_confirm">
+        <div class="popup__container">
+            <h2 class="popup__title popup__title_confirm">Вы уверены?</h2>
+            <button class="form__save-button popup__confirm-button popup__button">Да</button>
+            <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
+        </div>
+    </div>
+
+    <div class="popup popup_update-avatar">
+        <div class="popup__container">
+            <form class="form popup__form form_update_avatar" name="form" novalidate>
+                <h2 class="form__title">Обновить аватар</h2>
+                <label class="form__field">
+                    <input class="popup__input form__input form__input_type_link" id="avatar-input" type="url" name="avatar" placeholder="Ссылка на картинку" value="" required>
+                    <span class="form__error avatar-input-error popup__error"></span>
+                </label>
+                <button class="form__save-button popup__button popup__button_add_avatar" type="submit">Создать</button>
+            </form>
+            <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
+        </div>
+    </div>
+
     <template id="template-element">
         <article class="element">
             <img class="element__image" src="#" alt="изображение">
             <button class="element__delete-button" type="button" aria-label="Удаление карточки"></button>
             <div class="element__info">
                 <h2 class="element__title"></h2>
-                <button class="element__like-button" type="button" aria-label="Мне нравится"></button>
+                <div class="element__like">
+                    <button class="element__like-button" type="button" aria-label="Мне нравится"></button>
+                    <span class="element__likes-count">0</span>
+                </div>
             </div>
         </article>
     </template>
