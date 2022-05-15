@@ -14,9 +14,6 @@ export class Api {
                 }
                 return Promise.reject(`Ошибка: ${res.status}`);
             })
-            .catch((err) => {
-                console.log(err);
-            })
     }
 
     _patchData(suffix, data) {
@@ -30,9 +27,6 @@ export class Api {
                     return res.json();
                 }
                 return Promise.reject(`Ошибка: ${res.status}`);
-            })
-            .catch((err) => {
-                console.log(err);
             })
     }
 
@@ -48,9 +42,6 @@ export class Api {
                 }
                 return Promise.reject(`Ошибка: ${res.status}`);
             })
-            .catch((err) => {
-                console.log(err);
-            })
     }
 
     _deleteData(suffix) {
@@ -64,9 +55,6 @@ export class Api {
                 }
                 return Promise.reject(`Ошибка: ${res.status}`);
             })
-            .catch((err) => {
-                console.log(err);
-            })
     }
 
     _putData(suffix) {
@@ -79,9 +67,6 @@ export class Api {
                     return res.json();
                 }
                 return Promise.reject(`Ошибка: ${res.status}`);
-            })
-            .catch((err) => {
-                console.log(err);
             })
     }
 

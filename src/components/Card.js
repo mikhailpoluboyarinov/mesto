@@ -21,7 +21,7 @@ export class Card {
 
     _handleClickLikeToggle() {
             this._likeButton.addEventListener('click', () => {
-            this._handleLikeButtonClick();
+            this._handleLikeButtonClick(this._likeButton.classList.contains('element__like-button_active'));
         })
     }
 

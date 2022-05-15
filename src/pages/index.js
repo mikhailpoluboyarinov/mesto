@@ -64,7 +64,10 @@ newCardValidation.enableValidation();
 
 //События
 popupBtnEdit.addEventListener('click', editProfile);
-formAddAvatar.addEventListener('click', () => popupEditAvatar.open());
+formAddAvatar.addEventListener('click', () => {
+    popupEditAvatar.setInitialSubmitText();
+    popupEditAvatar.open()
+});
 
 function openImagePopup (data) {
     popupImage.open(data);
@@ -87,6 +90,8 @@ function submitHandlerForm (data) {
         });
 
         popupUserInfo.close();
+    }).catch((err) => {
+        console.log(err);
     })
 }
 
@@ -112,10 +117,13 @@ function handleSubmitEditAvatar (values) {
         userInfo.setAvatar(data.avatar);
 
         popupEditAvatar.close();
+    }).catch((err) => {
+        console.log(err);
     })
 }
 
 function editProfile() {
+    popupUserInfo.setInitialSubmitText();
     popupUserInfo.open();
 
     const userInfoData = userInfo.getUserInfo();
@@ -124,10 +132,64 @@ function editProfile() {
     profileValidation.checkValidity();
 }
 
+//Функция создания карточки
+const createCard = (cardData) => {
+
+    function removeCard () {
+        api.deleteCard(cardData.id).then(() => {
+            popupDelete.close();
+            cardItem.removeCard();
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
+    function handleRemoveButtonClick () {
+        popupDelete.setCallback(removeCard);
+        popupDelete.open();
+    }
+
+    function callbackLikeBtnClick (data) {
+        cardItem.toggleLikeButton();
+        cardItem.setLIkeCount(data.likes.length);
+    }
+
+    function handleLikeButtonClick (isLiked) {
+        if (isLiked) {
+            api.deleteLike(cardData.id).then((data) => {
+                callbackLikeBtnClick(data);
+            }).catch((err) => {
+                console.log(err);
+            })
+        } else {
+            api.putLike(cardData.id).then((data) => {
+                callbackLikeBtnClick(data);
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+    }
+
+    const cardItem = new Card({ data: cardData, handleRemoveButtonClick, handleLikeButtonClick }, templateSelector, openImagePopup);
+
+    return cardItem.renderCard();
+}
+
+//Функция добавления карточек при загрузке страницы
+const cardSection = new Section((data) => {
+        const card = createCard(data);
+        cardSection.addItem(card);
+    },
+    cardsSelector
+);
+
 // загрузка данных для отрисовки страницы
 Promise.all([api.getUserInfo(), api.getInitialCards()]).then(data => {
     const userData = data[0];
     const cardsData = data[1];
+    const preparedData = cardsData.map((cardData) => {
+        return mapCardData(cardData, userData);
+    });
 
     userInfo.setUserInfo({
         name: userData.name,
@@ -135,58 +197,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(data => {
         avatar: userData.avatar
     });
 
-    //Функция создания карточки
-    const createCard = (cardData) => {
-        let mappedCardData = mapCardData(cardData, userData);
-
-        function removeCard () {
-            api.deleteCard(mappedCardData.id).then(() => {
-                popupDelete.close();
-                cardItem.removeCard();
-            });
-        }
-
-        function handleRemoveButtonClick () {
-            popupDelete.setCallback(removeCard);
-            popupDelete.open();
-        }
-
-        function callbackLikeBtnClick (data) {
-            cardItem.toggleLikeButton();
-            cardItem.setLIkeCount(data.likes.length);
-
-            mappedCardData = mapCardData(data, userData);
-
-        }
-
-        function handleLikeButtonClick () {
-            if (mappedCardData.isLiked) {
-                api.deleteLike(mappedCardData.id).then((data) => {
-                    callbackLikeBtnClick(data);
-                })
-            } else {
-                api.putLike(mappedCardData.id).then((data) => {
-                    callbackLikeBtnClick(data);
-                })
-            }
-        }
-
-        const cardItem = new Card({ data: mappedCardData, handleRemoveButtonClick, handleLikeButtonClick }, templateSelector, openImagePopup);
-
-        return cardItem.renderCard();
-    }
-
-    //Функция добавления карточек при загрузке страницы
-    const cardSection = new Section({
-            items: cardsData,
-            renderer: (data) => {
-                const card = createCard(data);
-                cardSection.addItem(card);
-            }
-        },
-        cardsSelector
-    );
-    cardSection.render();
+    cardSection.render(preparedData);
 
     const popupAddPlace = new PopupWithForm(popupAddSelector, addCard);
     popupAddPlace.setEventListeners();
@@ -201,7 +212,7 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(data => {
         popupAddPlace.setSubmitting();
 
         api.postNewCard(cardData).then(data => {
-            const newCard = createCard(data);
+            const newCard = createCard(data, userData);
 
             popupAddPlace.setSubmitted();
 
@@ -209,14 +220,19 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(data => {
 
             popupAddPlace.close();
             popupAddPlace.reset();
+        }).catch((err) => {
+            console.log(err);
         })
     }
 
     //Функция открытия попапа добавления карточек
     function openAddCard() {
         newCardValidation.reset();
+        popupAddPlace.setInitialSubmitText();
         popupAddPlace.open();
     }
 
     popupBtnAdd.addEventListener('click', openAddCard);
+}).catch((err) => {
+    console.log(err);
 })

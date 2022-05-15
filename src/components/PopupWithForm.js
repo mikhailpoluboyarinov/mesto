@@ -7,6 +7,7 @@ export class PopupWithForm extends Popup {
         this._callbackSubmitForm = callbackSubmitForm;
         this._popupInputList = this._element.querySelectorAll('.popup__input');
         this._popupForm = this._element.querySelector('.popup__form');
+        this._submitText = this._element.querySelector('button[type="submit"]').textContent;
     }
 
     getInputValues() {
@@ -39,6 +40,10 @@ export class PopupWithForm extends Popup {
 
     setSubmitted() {
         this._element.querySelector('button[type="submit"]').textContent = 'Сохранено';
+    }
+
+    setInitialSubmitText() {
+        this._element.querySelector('button[type="submit"]').textContent = this._submitText;
     }
 
     close() {
