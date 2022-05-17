@@ -95,17 +95,26 @@ function submitHandlerForm (data) {
     })
 }
 
-function mapCardData (cardData, userData) {
+function mapCardData (cardData) {
+    const userId = userInfo.getUserId();
     return {
         name: cardData.name,
         id: cardData._id,
         link: cardData.link,
-        withRemoveButton: cardData.owner._id === userData._id,
+        withRemoveButton: cardData.owner._id === userId,
         likesCount: cardData.likes.length,
         isLiked: Boolean(cardData.likes.find((item) => {
-            return item._id === userData._id;
+            return item._id === userId;
         }))
     };
+}
+
+function mapUserInfo (userInfoData) {
+    return {
+        name: userInfoData.name,
+        profession: userInfoData.about,
+        avatar: userInfoData.avatar
+    }
 }
 
 function handleSubmitEditAvatar (values) {
@@ -131,6 +140,8 @@ function editProfile() {
     popupUserInfo.setInputValues(userInfoData);
     profileValidation.checkValidity();
 }
+
+
 
 //Функция создания карточки
 const createCard = (cardData) => {
@@ -183,56 +194,59 @@ const cardSection = new Section((data) => {
     cardsSelector
 );
 
+
+const popupAddPlace = new PopupWithForm(popupAddSelector, addCard);
+popupAddPlace.setEventListeners();
+
+//Функция сохранения данных карточки
+function addCard(data) {
+    const cardData = {
+        name: data['name-of-place'],
+        link: data.link
+    };
+
+    popupAddPlace.setSubmitting();
+
+    api.postNewCard(cardData).then(data => {
+
+        const preparedData = mapCardData(data);
+
+        const newCard = createCard(preparedData);
+
+        popupAddPlace.setSubmitted();
+
+        cardSection.addItem(newCard);
+
+        popupAddPlace.close();
+        popupAddPlace.reset();
+    }).catch((err) => {
+        console.log(err);
+    })
+}
+
+//Функция открытия попапа добавления карточек
+function openAddCard() {
+    newCardValidation.reset();
+    popupAddPlace.setInitialSubmitText();
+    popupAddPlace.open();
+}
+
+popupBtnAdd.addEventListener('click', openAddCard);
+
+
 // загрузка данных для отрисовки страницы
 Promise.all([api.getUserInfo(), api.getInitialCards()]).then(data => {
     const userData = data[0];
     const cardsData = data[1];
-    const preparedData = cardsData.map((cardData) => {
-        return mapCardData(cardData, userData);
-    });
 
-    userInfo.setUserInfo({
-        name: userData.name,
-        profession: userData.about,
-        avatar: userData.avatar
+    userInfo.setUserInfo(mapUserInfo(userData));
+    userInfo.setUserId(userData._id);
+
+    const preparedData = cardsData.map((cardData) => {
+        return mapCardData(cardData);
     });
 
     cardSection.render(preparedData);
-
-    const popupAddPlace = new PopupWithForm(popupAddSelector, addCard);
-    popupAddPlace.setEventListeners();
-
-    //Функция сохранения данных карточки
-    function addCard(data) {
-        const cardData = {
-            name: data['name-of-place'],
-            link: data.link
-        };
-
-        popupAddPlace.setSubmitting();
-
-        api.postNewCard(cardData).then(data => {
-            const newCard = createCard(data, userData);
-
-            popupAddPlace.setSubmitted();
-
-            cardSection.addItem(newCard);
-
-            popupAddPlace.close();
-            popupAddPlace.reset();
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
-
-    //Функция открытия попапа добавления карточек
-    function openAddCard() {
-        newCardValidation.reset();
-        popupAddPlace.setInitialSubmitText();
-        popupAddPlace.open();
-    }
-
-    popupBtnAdd.addEventListener('click', openAddCard);
 }).catch((err) => {
     console.log(err);
 })
